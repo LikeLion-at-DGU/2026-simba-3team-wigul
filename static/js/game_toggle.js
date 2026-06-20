@@ -19,6 +19,9 @@ toggle.addEventListener("change", () => {
     document.querySelector(".my-side-dsc").innerText =
         toggle.checked ? "당신은 B SIDE!" : "당신은 A SIDE!";
 
+    sliderText.innerText = 
+        toggle.checked ? "B" : "A";
+
 
     }, 150);
 

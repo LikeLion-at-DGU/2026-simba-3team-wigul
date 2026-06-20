@@ -497,16 +497,110 @@ margin: 0;
 
 .current-side{
     width: 332px;
-    height: 130px;
     border-radius: 10px;
     background: #EEE;
-
-    /* 위사이드/박스 그림자 */
     box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
+}
+
+.current-side-detail{
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.4s ease;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.current-side.active .current-side-detail{
+    max-height: 500px; /* 충분히 큰 값 */
+    padding: 20px;
+}
+
+.game_profile_me{
+    display: flex;
+    align-items: center;
+
+    width: 315px;
+    height: 70px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: var(--foundation-green-light-hover, #F2F9E0);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.game_profile{
+    display: flex;
+    align-items: center;
+
+    width: 315px;
+    height: 70px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: #fff;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.game_profile_img{
+    width: 48px;
+    height: 48px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgba(247, 9, 9, 0.40);
+
+    flex-shrink: 0;
+}
+
+.game_profile_name{
+    margin-left: 10px;
+
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    font-family: "KBL Jump TTF";
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+}
+
+.game_profile_side-A{
+    margin-left: auto; /* 오른쪽 끝으로 밀기 */
+
+    color: var(--Foundation-Green-Normal, #A8D832);
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+}
+
+.game_profile_side-B{
+    margin-left: auto; /* 오른쪽 끝으로 밀기 */
+
+    color: var(--Foundation-Yellow-Normal, #FFD94A);
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.6px;
 }
 
 .current-mem-num{

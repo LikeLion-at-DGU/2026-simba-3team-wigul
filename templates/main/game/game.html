@@ -144,7 +144,49 @@
                 <span class="side-colon">:</span>
                 <span class="side-b-score">2</span>
             </div>
-            <div class="current-side-more">자세히 보기 <i class="fa-solid fa-angle-down"></i></div>
+            <div class="current-side-more">자세히 보기 <i class="fa-solid fa-angle-down detail-arrow"></i></div>
+            <div class="current-side-detail">
+                <div class="game_profile_me">
+                    <img 
+                    src="{% static 'images/logo_wigul.png' %}"
+                    alt=""
+                    class="game_profile_img"
+                    id="game_profile_img"
+                    >
+                    <div class="game_profile_name">굿모닝도 닝이다</div>
+                    <div class="game_profile_side-A">A</div>
+                </div>
+                <div class="game_profile">
+                    <img 
+                    src="{% static 'images/logo_wigul.png' %}"
+                    alt=""
+                    class="game_profile_img"
+                    id="game_profile_img"
+                    >
+                    <div class="game_profile_name">윈터는 아마도 멘터</div>
+                    <div class="game_profile_side-A">A</div>
+                </div>
+                <div class="game_profile">
+                    <img 
+                    src="{% static 'images/logo_wigul.png' %}"
+                    alt=""
+                    class="game_profile_img"
+                    id="game_profile_img"
+                    >
+                    <div class="game_profile_name">지젤마미력</div>
+                    <div class="game_profile_side-B">B</div>
+                </div>
+                <div class="game_profile">
+                    <img 
+                    src="{% static 'images/logo_wigul.png' %}"
+                    alt=""
+                    class="game_profile_img"
+                    id="game_profile_img"
+                    >
+                    <div class="game_profile_name">칼있으마</div>
+                    <div class="game_profile_side-B">B</div>
+                </div>
+            </div>
         </div>
 
         <div class="my-side">
@@ -173,7 +215,6 @@
                         <span class="slider-text" id="slider-text">A</span>
                     </span>
                 </label>
-
             </div>
         </div>
     </div>
@@ -181,6 +222,7 @@
 
 <script src="{% static 'js/game_toggle.js' %}"></script>
 <script src="{% static 'js/game_temp_info.js' %}"></script>
+<script src="{% static 'js/game_view_more.js' %}"></script>
 
 
 {% endblock %}
