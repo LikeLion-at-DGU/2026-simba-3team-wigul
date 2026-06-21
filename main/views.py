@@ -1,11 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
-def home_view(request):
+def intro_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+        
     return render(request, 'main.html')
 
-def signup_view(request):
-    return render(request, 'main/signup.html')
 
-def login_view(request):
-    return render(request, 'main/login.html')
+def home_view(request):
+    if not request.user.is_authenticated:
+        return redirect('intro')
+        
+    return render(request, 'main/home/home.html')
+
+def game_view(request):
+    if not request.user.is_authenticated:
+        return redirect('intro')
+    return render(request, 'main/game/game.html')
+
+def create_room_view(request):
+    if not request.user.is_authenticated:
+        return redirect('intro')
+    return render(request, 'main/home/create_room.html')
