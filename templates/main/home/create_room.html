@@ -35,18 +35,16 @@
             {% for member in room_members %}
             <li class="member-item">
                 <div class="status-dot online"></div>
-                <div class="avatar">개굴</div>
+                <div class="avatar {{ member.color }}">{{ member.avatar }}</div>
                 <div class="nickname">{{ member.user.username }}</div>
                 {% if member.is_host %}
                     <div class="badge-host">방장</div>
-                {% else %}
-                    <div class="badge-kick">참여자</div>
                 {% endif %}
             </li>
             {% empty %}
             <li class="member-item">
                 <div class="status-dot online"></div>
-                <div class="avatar">개굴</div>
+                <div class="avatar {{ member.color }}">{{ member.avatar }}</div>
                 <div class="nickname">{{ user.username }}</div>
                 <div class="badge-host">방장</div>
             </li>
