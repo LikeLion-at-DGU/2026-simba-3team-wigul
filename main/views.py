@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # app 이름에 맞춰 models 경로를 수정해 주세요. (예: from .models import Room, ...)
 from .models import Room, GameRound, Question, TempEngine
+from django.contrib.auth.decorators import login_required
 
 def intro_view(request):
     if request.user.is_authenticated:
@@ -159,3 +160,24 @@ def game_view(request, room_id):
     
     return render(request, 'main/game/game.html', context)
 
+
+@login_required
+def ranking_list(request):
+    sort_by = request.GET.get('sort', 'temperature')
+    
+    if sort_by == 'rounds':
+        rooms = Room.objects.all().order_by('-rounds', '-temperature')
+        active_filter = 'rounds'
+    elif sort_by == 'change_rate':
+        rooms = Room.objects.all().order_by('-change_rate', '-temperature')
+        active_filter = 'change_rate'
+    else:
+        rooms = Room.objects.all().order_by('-temperature', '-created_at')
+        active_filter = 'temperature'
+        
+    context = {
+        'rooms': rooms,
+        'active_filter': active_filter,
+    }
+
+    return render(request, 'main/ranking/ranking.html', context)
