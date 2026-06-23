@@ -13,8 +13,8 @@ def signup_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         nickname = request.POST.get('nickname')
-        profile_image = request.POST.get('profile_image', 'default_frog')
-        background_color = request.POST.get('background_color', '#FFFFFF')
+        profile_character = request.POST.get('profile_character', 'basic')
+        background_color = request.POST.get('profile_color', 'bg-red')
 
         if User.objects.filter(username=username).exists():
             messages.error(request, "이미 존재하는 아이디입니다.")
@@ -25,7 +25,7 @@ def signup_view(request):
         UserProfile.objects.create(
             user=user,
             nickname=nickname,
-            profile_image=profile_image,
+            profile_character=profile_character,
             background_color=background_color
         )
 
@@ -53,7 +53,7 @@ def login_view(request):
                 new_profile = UserProfile.objects.create(
                     user=user,
                     nickname=user.username,
-                    profile_image='default_frog',
+                    profile_character='default_frog',
                     background_color='#FFFFFF'
                 )
                 nickname = new_profile.nickname
