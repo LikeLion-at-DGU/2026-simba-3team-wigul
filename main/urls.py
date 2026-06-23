@@ -12,6 +12,7 @@ urlpatterns = [
     path('subject-select/<uuid:room_id>/', subject_select_modal_view, name='subject_select'),
 
 
+  
     path('mypage/', user_views.mypage_view, name='mypage'),
     path('mypage/profile/', user_views.profile_view, name='profile'),
     path('mypage/edit-info/', user_views.info_edit_view, name='edit_information'),
@@ -21,8 +22,6 @@ urlpatterns = [
     path('mypage/history/<int:room_id>/', user_views.room_history_detail_view, name='room_history_detail'),
     path('mypage/contact/', user_views.contact_us_view, name='contact_us'),
     path('mypage/withdraw/', user_views.withdraw_view, name='withdraw'),
-
-    path('ranking/', views.ranking_list, name='ranking'),
-]
-
     
+  path('ranking/', views.ranking_list, name='ranking'),
+]

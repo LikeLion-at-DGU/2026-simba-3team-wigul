@@ -226,7 +226,6 @@ def game_view(request, room_id):
 
     return render(request, 'main/game/game.html', context)
 
-
 @login_required
 def ranking_list(request):
     sort_by = request.GET.get('sort', 'temperature')
