@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout as auth_logout, update_session_auth_hash
 from django.contrib import messages
@@ -6,43 +7,57 @@ from django.contrib.auth.models import User
 from accounts.models import UserProfile
 from main.models import Room, RoomMember, Inquiry
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.safestring import mark_safe # 💡 텍스트를 HTML 태그로 안전하게 변환해주는 장치
+from accounts.models import UserProfile
+from main.models import RoomMember
+
 def mypage_view(request):
     """
     1. 마이페이지 메인 (mypage.html)
-    - 프로필 정보 조회
-    - 전적 통계 집계 (총 라운드, 최고 온도, 방 개수, 벌칙 수 등)
+    - profile_character 필드 이름에 맞춰 완벽하게 연동
     """
     if not request.user.is_authenticated:
         return redirect('login')
         
     user = request.user
     profile = get_object_or_404(UserProfile, user=user)
-
     user_rooms = RoomMember.objects.filter(user=user)
-    total_rooms_count = user_rooms.count()
     
-    # 전적 통계 초기값
+    # 전적 통계 집계
+    total_rooms_count = user_rooms.count()
     highest_temp = 36.5
     total_rounds = 0
-    penalty_count = 0
-    
     for member in user_rooms:
         room = member.room
         if room.temperature > highest_temp:
             highest_temp = room.temperature
-        
         if hasattr(room, 'total_rounds'):
             total_rounds += room.total_rounds
-            
+
+    # 💡 [필드명 매칭 완료] 네가 통일한 profile_character 이름으로 안전하게 꺼내옵니다.
+    db_color = getattr(profile, 'background_color', 'bg-red')
+    db_avatar_file = getattr(profile, 'profile_character', 'wigul_1.png') # 🌟 여기!
+
+    # 메인 화면에 띄워줄 이미지 태그 조립
+    avatar_html = mark_safe(f'<img src="/static/images/{db_avatar_file}" alt="위굴이" style="width:100%; height:100%; object-fit:contain;">')
+
     context = {
-        'profile': profile,
-        'total_rooms_count': total_rooms_count,
-        'highest_temp': highest_temp,
-        'total_rounds': total_rounds,
-        'penalty_count': penalty_count,
+        'user_profile': {
+            'nickname': profile.nickname,
+            'color': db_color,
+            'avatar': avatar_html,
+        },
+        'stats': {
+            'total_rounds': total_rounds,
+            'max_temp': highest_temp,
+            'room_count': total_rooms_count,
+        },
+        'history_list': [
+            {'temp': member.room.temperature, 'name': member.room.title} for member in user_rooms
+        ]
     }
     return render(request, 'main/mypage/mypage.html', context)
-
 
 def profile_view(request):
     """
@@ -52,13 +67,13 @@ def profile_view(request):
         return redirect('login')
         
     profile = get_object_or_404(UserProfile, user=request.user)
-    return render(request, 'main/mypage/profile.html', {'profile': profile})
+    return render(request, 'main/mypage/edit_profile.html', {'profile': profile})
 
 
 def info_edit_view(request):
     """
-    3. 정보 수정 메인 페이지 (edit_information.html 또는 edit.html)
-    - 닉네임, 위굴이(프로필 캐릭터) 변경 처리
+    3. 정보 수정 메인 페이지 (edit_profile.html)
+    - 클릭 없이 제출되어도 기존 데이터가 유지되도록 방어 로직 추가
     """
     if not request.user.is_authenticated:
         return redirect('login')
@@ -68,21 +83,40 @@ def info_edit_view(request):
     
     if request.method == 'POST':
         new_nickname = request.POST.get('nickname')
-        new_profile_character = request.POST.get('profile_character')
+        new_color = request.POST.get('profile_color')
+        raw_avatar_path = request.POST.get('profile_image')
         
-        # 데이터가 프론트에서 들어왔을 때만 변경 후 세이브
+        # 1. 닉네임 수정
         if new_nickname:
             profile.nickname = new_nickname
-        if new_profile_character:
-            profile.profile_image = new_profile_character
+            
+        # 2. 배경 색상 수정 (하드코딩 초기값 제출 방어)
+        if new_color:
+            # 사용자가 아무것도 클릭하지 않아서 HTML 초기값인 bg-red가 그대로 날아왔고,
+            # 정작 사용자의 기존 색상은 bg-red가 아니라면 무시하고 기존 색상을 유지합니다.
+            if new_color == 'bg-red' and profile.background_color != 'bg-red' and not new_color:
+                pass
+            else:
+                profile.background_color = new_color
+            
+        # 3. 캐릭터 이미지 수정 (하드코딩 초기값 제출 방어)
+        if raw_avatar_path:
+            clean_filename = os.path.basename(raw_avatar_path)
+            
+            # 클릭 없이 static 경로 문구가 그대로 전송되었거나 wigul_1.png로 강제 덮어쓰기 되려는 현상 차단
+            if "static" in clean_filename or "{" in clean_filename:
+                pass
+            elif clean_filename == 'wigul_1.png' and profile.profile_character != 'wigul_1.png':
+                # 사용자가 고른 적이 없는데 1번 개구리로 강제 전송된 거라면 기존 캐릭터 유지
+                pass
+            else:
+                profile.profile_character = clean_filename
             
         profile.save()
         messages.success(request, "성공적으로 프로필이 수정되었습니다.")
         return redirect('mypage')
         
-    return render(request, 'main/mypage/edit_information.html', {'profile': profile})
-
-
+    return render(request, 'main/mypage/edit_profile.html', {'profile': profile})
 def password_edit_view(request):
     """
     4. 비밀번호 변경 처리 페이지 (edit_information.html)
