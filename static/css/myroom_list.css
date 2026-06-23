@@ -10,15 +10,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     gap: 15px;
     padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .myroom-list-title{
-    display: inline-flex;
-align-items: flex-end;
-gap: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 5px;
 }
 
 .myroom{
@@ -27,7 +30,7 @@ text-align: center;
 font-family: "KBL Jump TTF";
 font-size: 24px;
 font-style: normal;
-font-weight: 400;
+font-weight: 600;
 line-height: normal;
 letter-spacing: 0.72px;
 }
@@ -36,12 +39,12 @@ letter-spacing: 0.72px;
     color: var(--foundation-green-dark-active, #4C6116);
 text-align: center;
 
-/* 위사이드/KBO 최소 */
+
 font-family: "KBL Jump TTF";
 font-size: 10px;
 font-style: normal;
 font-weight: 400;
-line-height: 12px; /* 120% */
+line-height: 12px;
 letter-spacing: 0.3px;
 }
 
@@ -49,9 +52,13 @@ letter-spacing: 0.3px;
     background-color: #f6faef;
     border-radius: 16px;
     padding: 16px;
-    flex-grow: 1;
     margin-bottom: 20px;
     box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .myroom-item {
@@ -62,6 +69,8 @@ letter-spacing: 0.3px;
     justify-content: space-between;
     align-items: center;
     border: 1px solid #E0E0E0;
+    width: 100%; 
+    box-sizing: border-box;
 }
 .myroom-title {
     font-size: 16px;
