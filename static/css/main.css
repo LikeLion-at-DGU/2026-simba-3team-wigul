@@ -13,26 +13,35 @@
     font-display: swap;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* 모바일 앱  */
 .splash-wrapper {
     position: relative;
     width: 100%;
-    
-    min-height: calc(100vh - 140px); 
-    padding: 40px 20px;
-    
+    min-height: 100vh;
+    min-height: 100dvh;
     background: linear-gradient(135deg, #A8D832 0%, #FFE500 100%) !important; 
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 40px 24px 24px 24px;
     box-sizing: border-box;
     font-family: 'Pretendard', sans-serif;
+    overflow-y: auto; 
 }
 
-/* 1번 로딩 화면 & 2번 인증 화면박스 */
+.splash-wrapper::-webkit-scrollbar {
+    display: none;
+}
 .splash-container, .auth-container {
     width: 100%;
-    max-width: 400px; /* 모바일 뷰 크기 고정 */
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,7 +50,6 @@
     box-sizing: border-box;
 }
 
-/* 위굴이 애니메이션 */
 .wiggle-char-anim {
     width: 70px;
     height: auto;
@@ -53,7 +61,6 @@
     100% { transform: translateY(-12px); }
 }
 
-/* 글씨 스타일 */
 .splash-loading-text { 
     color: #FFF;
     text-align: center;
@@ -61,7 +68,7 @@
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
-    line-height: 12px; /* 120% */
+    line-height: 12px;
     letter-spacing: 0.1px; }
 
 .splash-logo, .auth-logo { 
@@ -86,13 +93,13 @@ top: -14.5px;
     color: #FFF;
 text-align: center;
 
-/* 위사이드/작은 텍스트 그림자 */
+
 text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
 font-family: Pretendard;
 font-size: 14px;
 font-style: normal;
 font-weight: 600;
-line-height: 18px; /* 128.571% */
+line-height: 18px;
 letter-spacing: 0.14px;
 
 margin-top: 3px !important;
@@ -114,7 +121,7 @@ margin-top: 3px !important;
     white-space: nowrap;
 }
 .auth-logo { 
-    font-size: 40px !important; /* 기존 60px에서 40px 정도로 줄임 */
+    font-size: 40px !important;
 }
 
 .auth-char-small { width: 60px; height: auto; margin-bottom: 0px; flex-shrink: 0;}
@@ -124,7 +131,7 @@ margin-top: 3px !important;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px; /* 버튼 사이 간격 */
+    gap: 16px;
     margin-top: 20px;
 }
 
@@ -158,4 +165,23 @@ margin-top: 3px !important;
 @keyframes fadeInEffect {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 577px) {
+    body {
+        background-color: #e2e8f0; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    
+    .splash-wrapper {
+        max-width: 412px;
+        height: 92vh; 
+        min-height: auto;
+        border-radius: 20px; 
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
+        overflow: hidden; 
+    }
 }
